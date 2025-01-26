@@ -1,1 +1,36 @@
 @import "tailwindcss";
+
+/* Define the scrolling animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(50%);
+  }
+  100% {
+    transform: translateX(-100%); /* Move half the container width */
+  }
+}
+
+.skills-scroll {
+  display: flex;
+  animation: marquee 20s linear infinite; /* Adjust speed here */
+  overflow: hidden;
+  width: 250%; /* Ensures the scroll container is twice the width of the viewport */
+}
+
+.skills-scroll:hover {
+  animation-play-state: paused;  /* Pause the animation on hover */
+}
+
+.skills-container {
+  display: flex;
+  position: relative;
+}
+
+.skills-container .skills-scroll {
+  flex-shrink: 0;
+}
+
+.skill-item {
+  margin-right: 3rem;
+  flex-shrink: 0;
+}

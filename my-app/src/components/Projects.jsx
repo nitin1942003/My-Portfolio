@@ -1,51 +1,72 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const projects = [
-  {
-    id: 1,
-    title: "Portfolio Website",
-    description: "A personal portfolio built with React and Tailwind CSS.",
-    link: "https://your-portfolio.com",
-  },
-  {
-    id: 2,
-    title: "Weather App",
-    description: "A weather forecasting app using OpenWeather API.",
-    link: "https://weather-app.com",
-  },
-  {
-    id: 3,
-    title: "E-commerce Store",
-    description: "A full-stack e-commerce platform built with MERN stack.",
-    link: "https://ecommerce-store.com",
-  },
-  {
-    id: 4,
-    title: "Chat Application",
-    description: "A real-time chat app using WebSockets.",
-    link: "https://chat-application.com",
-  },
-];
+const images = import.meta.glob("../assets/*.{png,jpg,jpeg,gif}", { eager: true });
 
 const Projects = () => {
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const selectedRepos = [
+    { name: "OJ-project", image: "../assets/p2.png" },
+    { name: "cache-cpp-simulator", image: "../assets/p1.png" },
+    { name: "RISC-V_cpu_design", image: "../assets/p3.png" },
+    { name: "My-Portfolio", image: "../assets/p4.png" },
+  ];  
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const username = "nitin1942003"; // Replace with your GitHub username
+        const response = await fetch(`https://api.github.com/users/${username}/repos`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch projects");
+        }
+
+        const data = await response.json();
+
+        // Filter and add images to selected repositories
+        const filteredProjects = data
+          .filter((repo) => selectedRepos.find((r) => r.name === repo.name))
+          .map((repo) => ({
+            ...repo,
+            image: selectedRepos.find((r) => r.name === repo.name)?.image,
+          }));
+
+        setProjects(filteredProjects);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  if (loading) return <p className="text-center">Loading projects...</p>;
+  if (error) return <p className="text-center text-red-500">{error}</p>;
+
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <h1 className="text-4xl font-bold text-center mb-10">My Projects</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="p-4">
+      <h1 className="text-2xl font-bold text-center mb-6">My Projects</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {projects.map((project) => (
-          <div
-            key={project.id}
-            className="bg-white shadow-lg rounded-lg p-6 hover:shadow-2xl transition"
-          >
-            <h2 className="text-2xl font-semibold mb-2">{project.title}</h2>
-            <p className="text-gray-600 mb-4">{project.description}</p>
+          <div key={project.id} className="border p-4 rounded-lg shadow-md">
+            <img
+              src={images[project.image]?.default || ""}
+              alt={project.name}
+              className="w-full h-40 object-contain rounded-md mb-4"
+            />
+            <h2 className="text-xl font-semibold">{project.name}</h2>
+            <p className="text-gray-600">{project.description || "No description available"}</p>
             <a
-              href={project.link}
+              href={project.html_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 font-bold hover:underline"
+              className="text-blue-500 hover:underline mt-2 inline-block"
             >
-              View Project
+              View Repository
             </a>
           </div>
         ))}

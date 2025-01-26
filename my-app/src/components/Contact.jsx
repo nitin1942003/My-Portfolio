@@ -1,89 +1,85 @@
-import React, { useState } from "react";
+import React from 'react';
+import { LinkedinIcon, MailIcon, InstagramIcon, GithubIcon } from 'lucide-react';
 
-const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert(`Message sent by ${formData.name}`);
-    setFormData({ name: "", email: "", message: "" });
+const ContactPage = () => {
+  const contactInfo = {
+    email: 'nitinsharma1942003@gmail.com',
+    linkedin: 'https://www.linkedin.com/in/nitin-sharma-459231256/',
+    github: 'https://github.com/nitin1942003',
+    instagram: 'https://www.instagram.com/nitinsharma1942003?igsh=MTVmZW43b3Iwa29ueA=='
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4">
-      <h1 className="text-4xl font-bold mb-6">Contact Me</h1>
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-lg bg-white p-6 rounded-lg shadow-lg space-y-4"
-      >
-        <div>
-          <label className="block text-gray-700 font-medium mb-1" htmlFor="name">
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-200 flex items-center justify-center p-4">
+      <div className="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-md transform hover:scale-105 transition-transform duration-300">
+        <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">Get in Touch</h1>
+        
+        <div className="space-y-4">
+          {/* Email Contact */}
+          <div className="flex items-center bg-blue-50 p-3 rounded-lg hover:bg-blue-100 transition">
+            <MailIcon className="text-blue-600 mr-4" size={30} />
+            <div>
+              <p className="text-sm text-gray-500">Email</p>
+              <a 
+                href={`mailto:${contactInfo.email}`} 
+                className="text-blue-800 font-semibold hover:underline"
+              >
+                {contactInfo.email}
+              </a>
+            </div>
+          </div>
+
+          {/* LinkedIn Contact */}
+          <div className="flex items-center bg-blue-50 p-3 rounded-lg hover:bg-blue-100 transition">
+            <LinkedinIcon className="text-blue-600 mr-4" size={30} />
+            <div>
+              <p className="text-sm text-gray-500">LinkedIn</p>
+              <a 
+                href={contactInfo.linkedin} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-blue-800 font-semibold hover:underline"
+              >
+                Connect on LinkedIn
+              </a>
+            </div>
+          </div>
+
+          {/* GitHub Contact */}
+          <div className="flex items-center bg-blue-50 p-3 rounded-lg hover:bg-blue-100 transition">
+            <GithubIcon className="text-gray-800 mr-4" size={30} />
+            <div>
+              <p className="text-sm text-gray-500">GitHub</p>
+              <a 
+                href={contactInfo.github} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-blue-800 font-semibold hover:underline"
+              >
+                View GitHub Profile
+              </a>
+            </div>
+          </div>
+
+          {/* Instagram Contact */}
+          <div className="flex items-center bg-blue-50 p-3 rounded-lg hover:bg-blue-100 transition">
+            <InstagramIcon className="text-pink-600 mr-4" size={30} />
+            <div>
+              <p className="text-sm text-gray-500">Instagram</p>
+              <a 
+                href={contactInfo.instagram} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-blue-800 font-semibold hover:underline"
+              >
+                Follow on Instagram
+              </a>
+            </div>
+          </div>
         </div>
-        <div>
-          <label
-            className="block text-gray-700 font-medium mb-1"
-            htmlFor="email"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-        </div>
-        <div>
-          <label
-            className="block text-gray-700 font-medium mb-1"
-            htmlFor="message"
-          >
-            Message
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-            rows="4"
-          ></textarea>
-        </div>
-        <button
-          type="submit"
-          className="w-full py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition"
-        >
-          Send Message
-        </button>
-      </form>
+      </div>
     </div>
   );
 };
 
-export default Contact;
+export default ContactPage;
